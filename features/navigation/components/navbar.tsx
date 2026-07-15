@@ -123,6 +123,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
+              loading="eager"
               src="/assets/images/kelola-logo.svg"
               alt="Kelola"
               width={60}

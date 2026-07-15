@@ -1,7 +1,11 @@
+import { HeroSection } from "@/features/marketing/components/hero-section";
+import { PricingSection } from "@/features/marketing/components/pricing-section";
+
 export default function RootPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <h1 className="text-2xl font-semibold">Kelola App</h1>
-    </div>
+    <>
+      <HeroSection />
+      <PricingSection />
+    </>
   );
 }
