@@ -46,7 +46,7 @@ function AvatarFigure() {
   return (
     <div className="flex flex-col items-center">
       <div className="size-[48px] rounded-full bg-[#9ca3af]" />
-      <div className="mt-[-6px] h-[60px] w-[100px] rounded-t-full bg-[#9ca3af]" />
+      <div className="mt-[-6px] h-[60px] w-[80px] rounded-t-full bg-[#9ca3af]" />
     </div>
   );
 }
