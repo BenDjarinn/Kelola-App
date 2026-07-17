@@ -118,26 +118,26 @@ function PricingCard({ plan }: PricingCardProps) {
       {/* Header */}
       <div>
         <div className="flex items-center justify-between">
-          <h3 className="text-[18px] font-bold text-white font-(family-name:--font-nav)">
+          <h3 className="text-[18px] font-bold text-white font-nav">
             {plan.name}
           </h3>
-          <span className="inline-flex items-center gap-[4px] rounded-full border border-white/20 px-[10px] py-[3px] text-[11px] font-normal text-white/70 ">
+          <span className="inline-flex justify-center items-center rounded-full border border-white/20 px-[14px] py-[4px] text-[11px] font-normal text-white/70 ">
             {plan.badge}
             <ArrowUpRight className="size-[12px]" />
           </span>
         </div>
 
         {/* Description */}
-        <p className="mt-[8px] text-[12px] font-normal text-white/50 font-(family-name:--font-nav)">
+        <p className="mt-[8px] text-[12px] font-normal text-white/50 font-nav">
           {plan.description}
         </p>
 
         {/* Price */}
         <div className="mt-[16px] flex items-baseline gap-[4px]">
-          <span className="text-[32px] font-bold text-white font-[family-name:var(--font-nav)]">
+          <span className="text-[32px] font-bold text-white font-nav">
             {plan.price}
           </span>
-          <span className="text-[13px] font-normal text-white/50 font-[family-name:var(--font-nav)]">
+          <span className="text-[13px] font-normal text-white/50 font-nav">
             {plan.period}
           </span>
         </div>
@@ -147,7 +147,7 @@ function PricingCard({ plan }: PricingCardProps) {
           {plan.features.map((feature) => (
             <div key={feature} className="flex items-start gap-[8px]">
               <Check className="mt-[2px] size-[14px] shrink-0 text-white" />
-              <span className="text-[12px] font-normal text-white/70 font-[family-name:var(--font-nav)]">
+              <span className="text-[12px] font-normal text-white/70 font-nav">
                 {feature}
               </span>
             </div>
@@ -158,7 +158,7 @@ function PricingCard({ plan }: PricingCardProps) {
       {/* CTA Button */}
       <Link
         href="#"
-        className={`mt-[24px] flex w-full items-center justify-center rounded-[10px] py-[10px] text-[13px] font-medium transition-all duration-200 font-[family-name:var(--font-nav)] ${buttonStyle}`}
+        className={`mt-[24px] flex w-full items-center justify-center rounded-[10px] py-[10px] text-[13px] font-medium transition-all duration-200 font-nav ${buttonStyle}`}
       >
         {plan.cta}
       </Link>
@@ -177,10 +177,10 @@ export function PricingSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <p className="text-[14px] font-normal text-[#7F86C2] font-[family-name:var(--font-nav)]">
+        <p className="text-[14px] font-normal text-[#7F86C2] font-nav">
           Let this be a fresh start for your project.
         </p>
-        <h2 className="mt-[8px] text-[24px] font-bold text-white font-[family-name:var(--font-nav)] md:text-[30px]">
+        <h2 className="mt-[8px] text-[24px] font-bold text-white font-nav md:text-[30px]">
           Let&apos;s make a move from now.
         </h2>
       </motion.div>
