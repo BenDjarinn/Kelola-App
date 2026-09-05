@@ -21,7 +21,7 @@ export function HeroDashboard() {
   return (
     <div className="w-full rounded-[16px] border border-white/10 bg-[#1e2540] p-[24px] shadow-2xl">
       {/* Title */}
-      <h3 className="mb-[16px] text-[16px] font-bold text-white font-[family-name:var(--font-nav)]">
+      <h3 className="mb-[16px] text-[16px] font-bold text-white font-nav">
         Notes - Sprint 4 Q1 - Polaris Briefing
       </h3>
 

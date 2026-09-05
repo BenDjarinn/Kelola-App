@@ -4,69 +4,9 @@ import Link from "next/link";
 import { Check, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-interface PricingPlan {
-  name: string;
-  badge: string;
-  badgeVariant: "default" | "highlight";
-  description: string;
-  price: string;
-  period: string;
-  features: string[];
-  cta: string;
-  ctaVariant: "default" | "gradient";
-}
+import { pricingPlans } from "@/config/pricing-plans";
 
-const pricingPlans: PricingPlan[] = [
-  {
-    name: "Standard",
-    badge: "Current",
-    badgeVariant: "default",
-    description: "Best for starters.",
-    price: "Free",
-    period: "/mo",
-    features: [
-      "Personal Goal Mapping",
-      "Basic Project Dashboard",
-      "100 Free Project Plan Templates",
-      "Basic Report Access",
-      "Support Forum Community",
-    ],
-    cta: "Upgrade Plan",
-    ctaVariant: "default",
-  },
-  {
-    name: "Business",
-    badge: "Save 25%",
-    badgeVariant: "highlight",
-    description: "Scale your planning with complete visibility.",
-    price: "$20",
-    period: "/mo",
-    features: [
-      "All Standard team features",
-      "10,000 Project Plan Templates",
-      "Team Performance Analysis & Reports",
-      "Third-Party tool integrations",
-      "More AI models",
-    ],
-    cta: "Upgrade Plan",
-    ctaVariant: "default",
-  },
-  {
-    name: "Entrepreneur",
-    badge: "Save 50%",
-    badgeVariant: "highlight",
-    description: "Fuel high-volume planning and strategy.",
-    price: "$65",
-    period: "/mo",
-    features: [
-      "All Business team features",
-      "Monthly coaching & strategy sessions",
-      "Early access on the latest feature",
-    ],
-    cta: "Contact Us",
-    ctaVariant: "gradient",
-  },
-];
+import type { PricingPlan } from "@/config/pricing-plans";
 
 const containerVariants = {
   hidden: {},

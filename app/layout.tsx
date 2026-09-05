@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Montserrat } from "next/font/google";
-import { Navbar } from "@/features/navigation/components/navbar";
-import { Footer } from "@/features/navigation/components/footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,10 +34,8 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} dark h-full antialiased`}
     >
-      <body className="min-h-[1200px] flex flex-col bg-background text-foreground" suppressHydrationWarning>
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="min-h-screen flex flex-col bg-background text-foreground" suppressHydrationWarning>
+        {children}
       </body>
     </html>
   );
