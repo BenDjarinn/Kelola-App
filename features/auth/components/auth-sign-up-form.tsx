@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ROUTES } from "@/config/routes";
 import { Eye, EyeOff } from "lucide-react";
 
 export function AuthSignUpForm() {
@@ -139,7 +140,7 @@ export function AuthSignUpForm() {
 
       <p className="auth-form-footer">
         Already have an account?{" "}
-        <Link href="/login" className="auth-form-footer-link">
+        <Link href={ROUTES.login} className="auth-form-footer-link">
           Login
         </Link>
       </p>

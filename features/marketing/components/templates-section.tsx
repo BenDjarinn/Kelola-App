@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface BadgeData {
   label: string;
@@ -119,11 +119,16 @@ const rightVariants = {
   },
 } as const;
 
+const REDUCED_VARIANTS = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+} as const;
+
 function Badge({ label, bg, color }: BadgeData) {
 
   return (
     <span
-      className="inline-block rounded-[3px] px-[6px] py-[2px] text-[9px] font-bold"
+      className="inline-block rounded-[3px] px-[6px] py-0.5 text-[9px] font-bold"
       style={{ background: bg, color }}
     >
       {label}
@@ -135,27 +140,27 @@ function MockupCard({ tag, tagBg, tagColor, tasks, top, left, rotate, zIndex, wi
 
   return (
     <div
-      className="absolute rounded-[10px] border border-white/8 bg-[#1b2338] p-[14px] shadow-[0_16px_48px_rgba(0,0,0,0.55)]"
+      className="absolute rounded-[10px] border border-white/8 bg-mkt-mockup-bg p-3.5 shadow-[0_16px_48px_rgba(0,0,0,0.55)]"
       style={{ top, left, transform: `rotate(${rotate})`, zIndex, width: width || 206 }}
     >
       {/* Header */}
       <div className="mb-[10px] flex items-center justify-between">
         <span
-          className="rounded-[4px] px-[8px] py-[3px] text-[9.5px] font-bold"
+          className="rounded-[4px] px-2 py-0.75 text-[9.5px] font-bold"
           style={{ background: tagBg, color: tagColor }}
         >
           {tag}
         </span>
-        <span className="text-[14px] tracking-[1px] text-[#475569]">···</span>
+        <span className="text-[14px] tracking-[1px] text-mkt-mockup-dots">···</span>
       </div>
 
       {/* Tasks */}
       {tasks.map((task, i) => (
         <div
           key={task.name}
-          className={`py-[7px] ${i < tasks.length - 1 ? "border-b border-white/5" : ""}`}
+          className={`py-1.75 ${i < tasks.length - 1 ? "border-b border-white/5" : ""}`}
         >
-          <div className="mb-[5px] text-[11px] font-medium text-[#e2e8f0]">{task.name}</div>
+          <div className="mb-1.25 text-[11px] font-medium text-mkt-mockup-text">{task.name}</div>
           <div className="flex flex-wrap gap-[4px]">
             {task.badges.map((badge) => (
               <Badge key={badge.label} label={badge.label} bg={badge.bg} color={badge.color} />
@@ -167,9 +172,9 @@ function MockupCard({ tag, tagBg, tagColor, tasks, top, left, rotate, zIndex, wi
       {/* Progress bar */}
       {showProgress && (
         <div className="pt-[8px]">
-          <div className="mb-[5px] text-[9px] text-[#475569]">Progress</div>
+          <div className="mb-[5px] text-[9px] text-mkt-mockup-dots">Progress</div>
           <div className="h-[3px] overflow-hidden rounded-[2px] bg-white/6">
-            <div className="h-full w-[40%] rounded-[2px] bg-[#6366f1]" />
+            <div className="h-full w-[40%] rounded-[2px] bg-mkt-progress" />
           </div>
         </div>
       )}
@@ -178,33 +183,38 @@ function MockupCard({ tag, tagBg, tagColor, tasks, top, left, rotate, zIndex, wi
 }
 
 export function TemplatesSection() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const resolvedLeftVariants = shouldReduceMotion ? REDUCED_VARIANTS : leftVariants;
+  const resolvedItemVariants = shouldReduceMotion ? REDUCED_VARIANTS : itemVariants;
+  const resolvedRightVariants = shouldReduceMotion ? REDUCED_VARIANTS : rightVariants;
 
   return (
-    <section className="w-full overflow-hidden bg-[#141928] px-[30px] py-[80px] md:px-[55px] md:py-[120px]">
+    <section className="w-full overflow-hidden bg-mkt-section-alt-bg px-[30px] py-[80px] md:px-[55px] md:py-[120px]">
       <div className="mx-auto flex flex-col items-start md:flex-row md:items-center md:justify-between">
         {/* Left content */}
         <motion.div
           className="flex max-w-[480px] flex-col gap-[16px]"
-          variants={leftVariants}
+          variants={resolvedLeftVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
           <motion.p
-            className="text-[14px] font-normal text-[#94a3b8] font-(family-name:--font-nav) md:text-[20px]"
-            variants={itemVariants}
+            className="text-[14px] font-normal text-mkt-body-subtle font-(family-name:--font-nav) md:text-[20px]"
+            variants={resolvedItemVariants}
           >
             What you need is ready, with
           </motion.p>
 
           <motion.h2
             className="text-[32px] font-extrabold leading-tight text-white font-(family-name:--font-nav) md:text-[40px] lg:text-[45px]"
-            variants={itemVariants}
+            variants={resolvedItemVariants}
           >
             10,000+ ready templates
           </motion.h2>
 
-          <motion.div variants={itemVariants}>
+          <motion.div variants={resolvedItemVariants}>
             <Link
               href="#"
               className="inline-flex items-center gap-[8px] rounded-[8px] border-[1.5px] border-white/50 px-[20px] py-[10px] text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white/[0.07] font-(family-name:--font-nav)"
@@ -218,7 +228,7 @@ export function TemplatesSection() {
         {/* Right content — overlapping card mockups */}
         <motion.div
           className="relative hidden h-[380px] w-[500px] shrink-0 md:block lg:w-[540px]"
-          variants={rightVariants}
+          variants={resolvedRightVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -241,15 +251,15 @@ export function TemplatesSection() {
 
           {/* Tooltip */}
           <div
-            className="absolute z-20 whitespace-nowrap rounded-[8px] bg-white px-[14px] py-[8px] text-[12px] font-bold text-[#0f172a] shadow-[0_6px_28px_rgba(0,0,0,0.45)]"
+            className="absolute z-20 whitespace-nowrap rounded-[8px] bg-mkt-mockup-tooltip-bg px-[14px] py-[8px] text-[12px] font-bold text-mkt-mockup-tooltip-text shadow-[0_6px_28px_rgba(0,0,0,0.45)]"
             style={{ top: 195, left: 140 }}
           >
             Pick from 10k+ templates: Flow, Task, and more.
-            <div className="absolute bottom-[-5px] left-[18px] size-[10px] rotate-45 bg-white" />
+            <div className="absolute bottom-[-5px] left-[18px] size-[10px] rotate-45 bg-mkt-mockup-tooltip-bg" />
           </div>
 
           {/* Right fade gradient */}
-          <div className="pointer-events-none absolute right-0 top-0 z-16 h-full w-[80px] bg-linear-to-r from-transparent to-[#141928]" />
+          <div className="pointer-events-none absolute right-0 top-0 z-16 h-full w-[80px] bg-linear-to-r from-transparent to-mkt-section-alt-bg" />
         </motion.div>
       </div>
     </section>

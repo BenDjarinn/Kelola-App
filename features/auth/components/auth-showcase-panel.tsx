@@ -110,7 +110,7 @@ export function AuthShowcasePanel() {
           alt=""
           width={56}
           height={56}
-          className="size-14"
+          className="auth-showcase-logo-image"
         />
       </div>
 

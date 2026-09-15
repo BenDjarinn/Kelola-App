@@ -66,3 +66,5 @@ export const homepageCommandActions: HomepageCommandAction[] = [
     label: "More",
   },
 ];
+
+export const defaultHomepageCommandActionId = homepageCommandActions[0].id;

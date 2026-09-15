@@ -2,14 +2,17 @@
 
 import { useState } from "react";
 
-import { homepageCommandActions } from "../config/homepage-command-actions";
+import {
+  defaultHomepageCommandActionId,
+  homepageCommandActions,
+} from "../config/homepage-command-actions";
 import { HomepageQuickActionButton } from "./homepage-quick-action-button";
 
 import type { HomepageCommandActionId } from "../config/homepage-command-actions";
 
 export function HomepageQuickActions() {
   const [selectedActionId, setSelectedActionId] =
-    useState<HomepageCommandActionId>("marketing-creativity");
+    useState<HomepageCommandActionId>(defaultHomepageCommandActionId);
 
   function handleActionSelect(actionId: HomepageCommandActionId) {
     setSelectedActionId(actionId);

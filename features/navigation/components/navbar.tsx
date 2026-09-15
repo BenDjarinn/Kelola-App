@@ -4,14 +4,16 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 import {
   templateMenuColumns,
   productMenuColumns,
   resourceMenuColumns,
 } from "@/config/navigation";
+import { ROUTES } from "@/config/routes";
 import { MegaMenu } from "./mega-menu";
+
 import type { MegaMenuColumn } from "./mega-menu";
 
 
@@ -72,7 +74,7 @@ const MEGA_MENU_MAP: Record<string, MegaMenuConfig> = {
 };
 
 function NavTrigger({ label, isActive, onHover }: NavTriggerProps) {
-  const colorClass = isActive ? "text-[#6155F5]" : "text-white/80 hover:text-[#6155F5]";
+  const colorClass = isActive ? "text-nav-accent" : "text-nav-text hover:text-nav-accent";
 
   return (
     <button
@@ -93,6 +95,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileActiveMenu, setMobileActiveMenu] = useState<string | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const handleNavHover = useCallback((label: string) => {
     setActiveMenu(label);
@@ -110,6 +113,14 @@ export function Navbar() {
   }
 
   const activeMegaMenu = activeMenu ? MEGA_MENU_MAP[activeMenu] : null;
+
+  const resolvedMegaMenuVariants = shouldReduceMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1 } }
+    : megaMenuVariants;
+
+  const resolvedMobileMenuVariants = shouldReduceMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1 }, exit: { opacity: 0 } }
+    : mobileMenuVariants;
 
   return (
     <header
@@ -150,8 +161,8 @@ export function Navbar() {
         <div className="flex items-center gap-4">
           {/* Login button - hidden on mobile */}
           <Link
-            href="/login"
-            className="hidden items-center justify-center rounded-[9px] bg-[linear-gradient(180deg,var(--color-btn-gradient-start)_0%,var(--color-btn-gradient-end)_100%)] px-5 py-2 text-[14px] font-normal text-white font-nav00 hover:brightness-125 hover:scale-[1.02] active:scale-[0.98] md:flex"
+            href={ROUTES.login}
+            className="hidden items-center justify-center rounded-[9px] bg-[linear-gradient(180deg,var(--color-btn-gradient-start)_0%,var(--color-btn-gradient-end)_100%)] px-5 py-2 text-[14px] font-normal text-white font-nav hover:brightness-125 hover:scale-[1.02] active:scale-[0.98] md:flex"
           >
             Login
           </Link>
@@ -171,7 +182,7 @@ export function Navbar() {
                   initial={{ rotate: -90, opacity: 0 }}
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.15 }}
                 >
                   <X className="size-6" />
                 </motion.span>
@@ -181,7 +192,7 @@ export function Navbar() {
                   initial={{ rotate: 90, opacity: 0 }}
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.15 }}
                 >
                   <Menu className="size-6" />
                 </motion.span>
@@ -197,7 +208,7 @@ export function Navbar() {
           <motion.div
             key={activeMenu}
             className="absolute left-0 top-18.75 hidden w-full overflow-hidden md:block"
-            variants={megaMenuVariants}
+            variants={resolvedMegaMenuVariants}
             initial="hidden"
             animate="visible"
             exit="hidden"
@@ -216,8 +227,8 @@ export function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 top-18.75 z-40 flex flex-col overflow-y-auto bg-[#161C33] md:hidden"
-            variants={mobileMenuVariants}
+            className="fixed inset-0 top-18.75 z-40 flex flex-col overflow-y-auto bg-nav-menu-bg md:hidden"
+            variants={resolvedMobileMenuVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -227,17 +238,17 @@ export function Navbar() {
                 <motion.div
                   key="main-nav"
                   className="flex flex-1 flex-col px-7.5"
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.2 }}
+                  exit={{ opacity: 0, x: shouldReduceMotion ? 0 : -20 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
                 >
                   <div className="flex flex-col py-5">
                     {Object.keys(MEGA_MENU_MAP).map((label) => (
                       <button
                         key={label}
                         type="button"
-                        className="flex items-center justify-between py-3.5 text-[16px] font-normal font-nav text-white/80 transition-colors duration-200 hover:text-[#6155F5]"
+                        className="flex items-center justify-between py-3.5 text-[16px] font-normal font-nav text-nav-text transition-colors duration-200 hover:text-nav-accent"
                         onClick={() => setMobileActiveMenu(label)}
                       >
                         {label}
@@ -247,8 +258,8 @@ export function Navbar() {
                   </div>
                   <div className="mt-auto border-t border-white/10 pt-4 pb-5">
                     <Link
-                      href="/login"
-                      className="flex w-full items-center justify-center rounded-[9px] bg-[linear-gradient(180deg,var(--color-btn-gradient-start)_0%,var(--color-btn-gradient-end)_100%)] px-5 py-3 text-[14px] font-normal text-white font-nav00 hover:brightness-125 active:scale-[0.98]"
+                      href={ROUTES.login}
+                      className="flex w-full items-center justify-center rounded-[9px] bg-[linear-gradient(180deg,var(--color-btn-gradient-start)_0%,var(--color-btn-gradient-end)_100%)] px-5 py-3 text-[14px] font-normal text-white font-nav hover:brightness-125 active:scale-[0.98]"
                     >
                       Login
                     </Link>
@@ -258,15 +269,15 @@ export function Navbar() {
                 <motion.div
                   key={mobileActiveMenu}
                   className="flex flex-1 flex-col px-7.5"
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: shouldReduceMotion ? 0 : 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.2 }}
+                  exit={{ opacity: 0, x: shouldReduceMotion ? 0 : 20 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
                 >
                   <div className="flex-1 overflow-y-auto py-5">
                     {MEGA_MENU_MAP[mobileActiveMenu].columns.map((column) => (
                       <div key={column.title} className="mb-6">
-                        <span className="mb-3 block text-[11px] font-normal uppercase tracking-[1px] text-[#474C7F] font-nav">
+                        <span className="mb-3 block text-[11px] font-normal uppercase tracking-[1px] text-nav-menu-label font-nav">
                           {column.title}
                         </span>
                         <div className="flex flex-col gap-4">
@@ -274,7 +285,7 @@ export function Navbar() {
                             <Link
                               key={item.label}
                               href={item.href}
-                              className="flex items-center gap-3 text-[15px] font-normal text-white transition-colors duration-200 hover:text-[#6155F5] font-nav"
+                              className="flex items-center gap-3 text-[15px] font-normal text-white transition-colors duration-200 hover:text-nav-accent font-nav"
                             >
                               <span className="text-white/70">{item.icon}</span>
                               {item.label}

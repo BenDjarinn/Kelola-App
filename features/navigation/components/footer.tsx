@@ -25,15 +25,15 @@ export function Footer() {
           </div>
 
           {/* Divider */}
-          <div className="mt-[20px] h-px w-[90%] bg-[#767984]" />
+          <div className="mt-[20px] h-px w-[90%] bg-nav-divider" />
 
           {/* Tagline */}
-          <p className="mt-[20px] text-[14px] font-normal text-[#7F86C2] font-nav">
+          <p className="mt-[20px] text-[14px] font-normal text-nav-link-text font-nav">
             Smarter. More personal. Truly creative.
           </p>
 
           {/* Copyright */}
-          <p className="mt-[12px] text-[13px] font-normal text-[#C0C3E1] font-nav">
+          <p className="mt-[12px] text-[13px] font-normal text-nav-link-muted font-nav">
             © 2026 Kelola — Built with intelligence for creators and teams.
           </p>
         </div>
@@ -42,7 +42,7 @@ export function Footer() {
         <div className="hidden gap-[60px] lg:flex">
           {footerColumns.map((column) => (
             <div key={column.title} className="flex flex-col gap-[20px]">
-              <span className="text-[14px] font-medium text-[#A6AAD4] font-nav">
+              <span className="text-[14px] font-medium text-nav-link-heading font-nav">
                 {column.title}
               </span>
               <div className="flex flex-col gap-[20px]">
@@ -50,7 +50,7 @@ export function Footer() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="text-[14px] font-normal text-[#7F86C2] transition-colors duration-200 hover:text-[#6155F5] font-nav"
+                    className="text-[14px] font-normal text-nav-link-text transition-colors duration-200 hover:text-nav-accent font-nav"
                   >
                     {link.label}
                   </Link>
@@ -65,7 +65,7 @@ export function Footer() {
       <div className="mx-auto mt-[30px] grid max-w-[1080px] grid-cols-3 gap-[30px] lg:hidden">
         {footerColumns.map((column) => (
           <div key={column.title} className="flex flex-col gap-[12px]">
-            <span className="text-[13px] font-medium text-[#A6AAD4] font-nav">
+            <span className="text-[13px] font-medium text-nav-link-heading font-nav">
               {column.title}
             </span>
             <div className="flex flex-col gap-[10px]">
@@ -73,7 +73,7 @@ export function Footer() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="text-[13px] font-normal text-[#7F86C2] transition-colors duration-200 hover:text-[#6155F5] font-nav"
+                  className="text-[13px] font-normal text-nav-link-text transition-colors duration-200 hover:text-nav-accent font-nav"
                 >
                   {link.label}
                 </Link>

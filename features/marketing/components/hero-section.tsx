@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { HeroDashboard } from "./hero-dashboard";
 
@@ -34,7 +34,17 @@ const rightVariants = {
   },
 } as const;
 
+const REDUCED_VARIANTS = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+} as const;
+
 export function HeroSection() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const resolvedLeftVariants = shouldReduceMotion ? REDUCED_VARIANTS : leftVariants;
+  const resolvedItemVariants = shouldReduceMotion ? REDUCED_VARIANTS : itemVariants;
+  const resolvedRightVariants = shouldReduceMotion ? REDUCED_VARIANTS : rightVariants;
 
   return (
     <section className="w-full bg-nav-bg px-[30px] pt-[120px] pb-[80px] md:px-[55px] md:pt-[140px] md:pb-[120px]">
@@ -42,38 +52,38 @@ export function HeroSection() {
         {/* Left content */}
         <motion.div
           className="flex max-w-[550px] flex-col gap-[24px]"
-          variants={leftVariants}
+          variants={resolvedLeftVariants}
           initial="hidden"
           animate="visible"
         >
           {/* Subtitle */}
           <motion.p
             className="text-[14px] font-bold text-white font-(family-name:--font-nav) md:text-[22px]"
-            variants={itemVariants}
+            variants={resolvedItemVariants}
           >
             The era of AI begins.
           </motion.p>
 
           {/* Heading */}
-          <motion.h1 className="flex flex-col gap-[4px]" variants={itemVariants}>
-            <span className="text-[28px] font-bold leading-tight text-[#7F86C2] font-(family-name:--font-nav) md:text-[36px] lg:text-[40px]">
-              Connect minds to One Page With a <span className="font-bold text-[#F0F0F8]">Single Click.</span>
+          <motion.h1 className="flex flex-col gap-[4px]" variants={resolvedItemVariants}>
+            <span className="text-[28px] font-bold leading-tight text-mkt-subheading font-(family-name:--font-nav) md:text-[36px] lg:text-[40px]">
+              Connect minds to One Page With a <span className="font-bold text-mkt-heading">Single Click.</span>
             </span>
           </motion.h1>
 
           {/* Description */}
           <motion.p
-            className="text-[13px] font-normal leading-relaxed text-white/60 font-(family-name:--font-nav) md:text-[14px]"
-            variants={itemVariants}
+            className="text-[13px] font-normal leading-relaxed text-mkt-body-muted font-(family-name:--font-nav) md:text-[14px]"
+            variants={resolvedItemVariants}
           >
             Stay on top of your ideas by connecting each other through the precision scheduling from various tasks with implementation of AI
           </motion.p>
 
           {/* CTA Button */}
-          <motion.div variants={itemVariants}>
+          <motion.div variants={resolvedItemVariants}>
             <Link
               href="#"
-              className="inline-flex items-center gap-[8px] rounded-xl border border-white/30 px-[20px] py-[10px] text-[13px] font-normal text-white transition-all duration-200 hover:border-[#6155F5] hover:text-[#6155F5] font-(family-name:--font-nav) md:text-[14px]"
+              className="inline-flex items-center gap-[8px] rounded-xl border border-white/30 px-[20px] py-[10px] text-[13px] font-normal text-white transition-all duration-200 hover:border-nav-accent hover:text-nav-accent font-(family-name:--font-nav) md:text-[14px]"
             >
               Bring Me There
               <ArrowUpRight className="size-[16px]" />
@@ -84,7 +94,7 @@ export function HeroSection() {
         {/* Right content — dashboard preview */}
         <motion.div
           className="hidden w-[400px] shrink-0 md:block lg:w-[480px]"
-          variants={rightVariants}
+          variants={resolvedRightVariants}
           initial="hidden"
           animate="visible"
         >

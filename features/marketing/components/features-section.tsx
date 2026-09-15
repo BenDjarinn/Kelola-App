@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const leftVariants = {
   hidden: { opacity: 0, x: -30 },
@@ -29,14 +29,19 @@ const rightVariants = {
   },
 } as const;
 
+const REDUCED_VARIANTS = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+} as const;
+
 function TaskCard({ title }: { title: string }) {
 
   return (
-    <div className="w-[170px] rounded-[10px] bg-[#2a3354] p-[16px]">
+    <div className="w-42.5 rounded-[10px] bg-mkt-card-inner-bg p-4">
       <span className="text-[14px] font-bold text-white/80 font-(family-name:--font-nav)">
         {title}
       </span>
-      <div className="my-[16px] flex flex-col gap-[12px]">
+      <div className="my-4 flex flex-col gap-3">
         <div className="h-px w-full bg-white/15" />
         <div className="h-px w-full bg-white/15" />
         <div className="h-px w-full bg-white/15" />
@@ -53,43 +58,48 @@ function AvatarIllustration() {
   return (
     <div className="flex flex-col items-center">
       {/* Head */}
-      <div className="size-[75px] rounded-full bg-[#9ca3af]" />
+      <div className="size-18.75 rounded-full bg-mkt-avatar" />
       {/* Body */}
-      <div className="mt-[-8px] h-[90px] w-[120px] rounded-t-full bg-[#9ca3af]" />
+      <div className="-mt-2 h-22.5 w-30 rounded-t-full bg-mkt-avatar" />
     </div>
   );
 }
 
 export function FeaturesSection() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const resolvedLeftVariants = shouldReduceMotion ? REDUCED_VARIANTS : leftVariants;
+  const resolvedItemVariants = shouldReduceMotion ? REDUCED_VARIANTS : itemVariants;
+  const resolvedRightVariants = shouldReduceMotion ? REDUCED_VARIANTS : rightVariants;
 
   return (
-    <section className="w-full bg-nav-bg px-[30px] py-[80px] md:px-[55px] md:py-[120px]">
-      <div className="mx-auto flex flex-col items-start gap-[40px] md:flex-row md:items-center md:justify-between">
+    <section className="w-full bg-nav-bg px-7.5 py-20 md:px-13.75 md:py-30">
+      <div className="mx-auto flex flex-col items-start gap-10 md:flex-row md:items-center md:justify-between">
         {/* Left content */}
         <motion.div
-          className="flex max-w-[480px] flex-col gap-[10px]"
-          variants={leftVariants}
+          className="flex max-w-120 flex-col gap-[10px]"
+          variants={resolvedLeftVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
           <motion.p
-            className="text-[20px] font-bold text-[#7F86C2] font-(family-name:--font-nav) md:text-[24px]"
-            variants={itemVariants}
+            className="text-[20px] font-bold text-mkt-subheading font-(family-name:--font-nav) md:text-[24px]"
+            variants={resolvedItemVariants}
           >
             Build better things,
           </motion.p>
 
           <motion.h2
             className="text-[30px] font-bold leading-tight text-white font-(family-name:--font-nav) md:text-[32px] lg:text-[40px]"
-            variants={itemVariants}
+            variants={resolvedItemVariants}
           >
             Simplified, And Easy to Use.
           </motion.h2>
 
           <motion.p
-            className="text-[15px] font-normal text-white/50 font-(family-name:--font-nav) md:text-[18px]"
-            variants={itemVariants}
+            className="text-[15px] font-normal text-mkt-body-muted font-(family-name:--font-nav) md:text-[18px]"
+            variants={resolvedItemVariants}
           >
             Kaizen is made for the team to track it&apos;s progress.
           </motion.p>
@@ -97,8 +107,8 @@ export function FeaturesSection() {
 
         {/* Right content — task illustration */}
         <motion.div
-          className="relative hidden h-[280px] w-[380px] shrink-0 md:flex"
-          variants={rightVariants}
+          className="relative hidden h-70 w-95 shrink-0 md:flex"
+          variants={resolvedRightVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -114,7 +124,7 @@ export function FeaturesSection() {
           </div>
 
           {/* Avatar — centered, overlapping bottom of both cards */}
-          <div className="absolute bottom-[40px] left-1/2 z-10 -translate-x-1/2">
+          <div className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2">
             <AvatarIllustration />
           </div>
         </motion.div>
